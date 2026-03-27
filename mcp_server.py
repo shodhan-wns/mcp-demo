@@ -12,7 +12,7 @@ from utils import (
 
 # Initialize FastMCP server
 mcp = FastMCP("bank")
-mcp.settings.host = "127.0.0.1"
+mcp.settings.host = "0.0.0.0"   # for Docker, change to 127.0.0.1 for non-Docker setup
 mcp.settings.port = 5002
 
 

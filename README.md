@@ -12,7 +12,23 @@ This project demonstrates the concepts of the **Model Context Protocol (MCP)** b
 
 ## Setup
 
+### MCP Server (Docker based - quickstart)
+
+To quickly spin up the MCP server, simply build the docker image and run it:
+   ```
+   docker build -t mcp-demo .
+   ```
+
+Then
+   ```
+   docker run -p 5002:5002 mcp-demo
+   ```
+
+The server will be accessible at `http://localhost:5002`.
+
 ### MCP server
+
+If Docker solution is not possible, follow these steps:
 
 1. **Clone or navigate to the project directory**:
    ```
@@ -36,10 +52,10 @@ This project demonstrates the concepts of the **Model Context Protocol (MCP)** b
    ```
 
 4. **Run the MCP server**:
-Start the MCP server in a terminal. Make sure the virtual environment is activated:
-```
-uv run mcp_server.py
-```
+   Start the MCP server in a terminal. Make sure the virtual environment is activated:
+   ```
+   uv run mcp_server.py
+   ```
 
 The server will run on `http://127.0.0.1:5002` and expose the tools defined in it.
 
@@ -51,10 +67,10 @@ To interact with the MCP server, we are using Claude CLI as client. To configure
    Follow the instructions at [Anthropic's Claude CLI documentation](https://code.claude.com/docs/en/quickstart). Once installed, run `claude` and login into your account.
 
 2. **Configure MCP server in Claude**:
-Add the abive MCP server in Claude by:
-```
-claude mcp add --transport stdio mcp_demo --scope local http:/127.0.0.1:5002/mcp
-```
+   Add the above MCP server in Claude by:
+   ```
+   claude mcp add --transport stdio mcp_demo --scope local http:/127.0.0.1:5002/mcp
+   ```
 
 3. **Run Claude CLI**:
 Run Claude CLI and check if the MCP server was registered and enabled successfully. This can be done using `/mcp` in Claude CLI.
