@@ -1,61 +1,64 @@
 import logging
-import httpx
 from mcp.server.fastmcp import FastMCP
 
-from utils import (
+from mcp_utils import (
     get_persons_count,
     search_persons_by_name,
-    search_persons_by_country,
+    get_person_detail,
     get_all_accounts_for_person,
+    get_balance_for_person,
+    get_transactions_for_account,
 )
 
 
 # Initialize FastMCP server
 mcp = FastMCP("bank")
-mcp.settings.host = "0.0.0.0"   # for Docker, change to 127.0.0.1 for non-Docker setup
+mcp.settings.host = "127.0.0.1"
+# mcp.settings.host = "0.0.0.0"     # uncomment this for Docker setup
 mcp.settings.port = 5002
 
 
 @mcp.tool()
-def get_persons_count_tool() -> int:
+async def get_persons_count_tool() -> int:
     """Get the total count of persons."""
-    return get_persons_count()
+    return await get_persons_count()
 
 
 @mcp.tool()
-def search_persons_by_name_tool(search_str: str) -> list[dict]:
+async def search_persons_by_name_tool(search_str: str) -> list[dict]:
     """Search for persons matching the search string."""
-    return search_persons_by_name(search_str)
+    return await search_persons_by_name(search_str)
 
 
 @mcp.tool()
-def search_persons_by_country_tool(country: str) -> list[dict]:
-    """Search for persons from a specific country."""
-    return search_persons_by_country(country)
+async def get_person_detail_tool(person_id: str) -> dict:
+    """Get a person's details including their accounts."""
+    return await get_person_detail(person_id)
 
 
 @mcp.tool()
-def get_all_accounts_for_person_tool(person_id: str) -> list[dict]:
+async def get_all_accounts_for_person_tool(person_id: str) -> list[dict]:
     """Get all accounts for a specific person."""
-    return get_all_accounts_for_person(person_id)
+    return await get_all_accounts_for_person(person_id)
 
 
 @mcp.tool()
-def get_balance_for_person_tool(person_id: str) -> float:
-    """Get the total balance for all accounts for a specific person."""
-    accounts = get_all_accounts_for_person(person_id)
-    return [
-        {
-            "iban": account["iban"],
-            "currency": account["currency_code"],
-            "total_balance": account["balance"],
-        }
-        for account in accounts
-    ]
+async def get_balance_for_person_tool(person_id: str) -> dict:
+    """Get balances for all accounts of a person.
+
+    Returns a dict with account numbers as keys and balance as values,
+    plus a 'total' key with the sum of all balances.
+    """
+    return await get_balance_for_person(person_id)
+
+
+@mcp.tool()
+async def get_transactions_for_account_tool(account_id: str, last_n: int = 10) -> list[dict]:
+    """Get the last N transactions for a specific account."""
+    return await get_transactions_for_account(account_id, last_n)
 
 
 def main():
-    # Initialize and run the server
     logging.info("Starting MCP server...")
     mcp.run(transport="streamable-http")
 

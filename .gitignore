@@ -12,3 +12,6 @@ wheels/
 # misc.
 .env
 .claude/
+
+# Django
+db.sqlite3

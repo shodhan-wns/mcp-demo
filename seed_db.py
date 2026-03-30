@@ -2,12 +2,12 @@ import os
 import json
 from pathlib import Path
 
-from bank_server.bank_app.models import Person, BankAccount, Transaction
-
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bank_server.settings')
 
 import django
 django.setup()
+
+from bank_server.bank_app.models import Person, BankAccount, Transaction    # noqa: E402
 
 
 DATA_DIR = Path(__file__).parent / 'data'

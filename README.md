@@ -5,30 +5,14 @@ This project demonstrates the concepts of the **Model Context Protocol (MCP)** b
 
 ## Overview
 
-- **Data**: We are using fake, static data stored in JSON files (see the `data/` folder). The data was created and fetched from https://mockapi.io/clone/69c4cea08a5b6e2dec2b2b55.
-- **MCP Server**: Built using `FastMCP` (via the MCP SDK), this server exposes `tools` that would let any MCP Client fetch data that is exposed.
+- **API server**: A Django-based API to expose the data models via traditional CRUD APIs.
+- **MCP Server**: Built using `FastMCP` (via the MCP SDK) to exposes `tools` that would let any MCP Client fetch data. Internally this uses the APIs exposed by the API server itself, but in a controlled manner - the implementation decides how much and what functionalities can the MCP server expose to the clients.
 - **MCP Client**: For the sake of this PoC, we are using Claude CLI as the Client, and configuring the MCP server in it. This lets us use the powers of Claude conversational AI while interacting with the MCP server without writing any additional code.
 
 
 ## Setup
 
-### MCP Server (Docker based - quickstart)
-
-To quickly spin up the MCP server, simply build the docker image and run it:
-   ```
-   docker build -t mcp-demo .
-   ```
-
-Then
-   ```
-   docker run -p 5002:5002 mcp-demo
-   ```
-
-The server will be accessible at `http://localhost:5002`.
-
-### MCP server
-
-If Docker solution is not possible, follow these steps:
+### API and MCP server
 
 1. **Clone or navigate to the project directory**:
    ```
@@ -51,8 +35,27 @@ If Docker solution is not possible, follow these steps:
    `mcp version`
    ```
 
-4. **Run the MCP server**:
-   Start the MCP server in a terminal. Make sure the virtual environment is activated:
+4. **Setup database (for the first time)**:
+   For first-time installations, run the Django migrations:
+   ```
+   python manage.py migrate
+   ```   
+   
+   Then, run `seed_db.py` to populate JSON data from `data/` folder into the databse (SQLite for now):
+   ```
+   python seed_db.py
+   ```
+
+4. **Run the API server**:
+   Start the API server in a terminal. Make sure the virtual environment is activated:
+   ```
+   uv run manage.py runserver
+   ```
+
+   Check the OpenAPI page on `http://127.0.0.1:8000/api/doc/`.
+
+5. **Run the MCP server**:
+   In another terminal, start the MCP server. Make sure the virtual environment is activated:
    ```
    uv run mcp_server.py
    ```
