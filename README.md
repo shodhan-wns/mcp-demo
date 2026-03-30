@@ -85,7 +85,7 @@ Once this is established, you can then start to converse normally with Claude, a
 
 - [Official documentation for MCP](https://modelcontextprotocol.io/docs/getting-started/intro)
    - [Building an MCP server](https://modelcontextprotocol.io/docs/develop/build-server)
-- [COnnecting Claude to MCP server](https://code.claude.com/docs/en/mcp)
+- [Connecting Claude to MCP server](https://code.claude.com/docs/en/mcp)
 - Further reading
    - [Building your own MCP client](https://modelcontextprotocol.io/docs/develop/build-client)
    
