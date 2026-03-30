@@ -1,6 +1,7 @@
 import uuid
 
 from django.db import models
+from django.utils import timezone
 
 
 class Person(models.Model):
@@ -43,7 +44,7 @@ class Transaction(models.Model):
 
     def __str__(self):
         return f"{self.transaction_type} on A/C {self.bank_account.account_number}"
-    
+
     def save(self, *args, **kwargs):
         self.createdAt = timezone.now()
         super().save(*args, **kwargs)

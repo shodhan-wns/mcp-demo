@@ -14,6 +14,10 @@ DATA_DIR = Path(__file__).parent / 'data'
 
 
 def seed():
+    Transaction.objects.all().delete()
+    BankAccount.objects.all().delete()
+    Person.objects.all().delete()
+
     with open(DATA_DIR / 'persons.json') as f:
         persons_data = json.load(f)
 
@@ -32,7 +36,7 @@ def seed():
     for p in persons_data:
         person = Person.objects.create(
             name=p['name'],
-            email='',
+            email=p['email'],
             phone_number=p.get('phone_number', ''),
         )
         hex_to_person[p['id']] = person
