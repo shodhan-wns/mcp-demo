@@ -79,3 +79,13 @@ To interact with the MCP server, we are using Claude CLI as client. To configure
 Run Claude CLI and check if the MCP server was registered and enabled successfully. This can be done using `/mcp` in Claude CLI.
 
 Once this is established, you can then start to converse normally with Claude, asking questions about the data. It will deduce what tools to use, invoke them and return the results. You can see what tools were called in the console itself.
+
+
+## Resources
+
+- [Official documentation for MCP](https://modelcontextprotocol.io/docs/getting-started/intro)
+   - [Building an MCP server](https://modelcontextprotocol.io/docs/develop/build-server)
+- [COnnecting Claude to MCP server](https://code.claude.com/docs/en/mcp)
+- Further reading
+   - [Building your own MCP client](https://modelcontextprotocol.io/docs/develop/build-client)
+   
