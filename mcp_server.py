@@ -1,3 +1,4 @@
+from pathlib import Path
 import logging
 from mcp.server.fastmcp import FastMCP
 
@@ -16,6 +17,16 @@ mcp = FastMCP("bank")
 mcp.settings.host = "127.0.0.1"
 # mcp.settings.host = "0.0.0.0"     # uncomment this for Docker setup
 mcp.settings.port = 5002
+
+
+@mcp.resource("resource://blacklisted_accounts")
+async def get_blacklisted_accounts():
+    """Return a list of blacklisted account numbers."""
+    blacklisted_file = Path(__file__).parent / "blacklisted_accounts.txt"
+    if not blacklisted_file.exists():
+        return []
+    with blacklisted_file.open() as f:
+        return [line.strip() for line in f if line.strip()]
 
 
 @mcp.tool()
